@@ -1,7 +1,9 @@
 # Gradle GitDroid (gradle-gitdroid)
 
 This gradle plugin is designed for allowing Android dependencies using git. This allows you to use any Android library 
-from a git repo based on commit or branch. 
+from a git repo based on commit or branch.
+ 
+**This project is still in development**
 
 ### What this plugin does
 * Looks for dependencies that have a git extension
@@ -12,27 +14,31 @@ from a git repo based on commit or branch.
 
 ### Usage
 To use this plugin:
-####1. Add to classpath
-`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'` to your root `build.gradle` file 
+####1. Add to project
+**Gradle version < 2.1** 
+`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.2'` to your root `build.gradle` file 
 in the buildscript dependencies section.
- 
 ```groovy
  buildscript {
      repositories {
          jcenter()
-         maven {
-             url mavenLocal().url
-         }
- 
      }
      dependencies {
          classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'
+         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.2'
      }
  }
 ```
  
 In your module's `build.gradle` file add `apply plugin: 'gradle-gitdroid'`
+
+**Gradle version >= 2.1**
+In your module's `build.gradle` file add plugin:
+```groovy
+plugins {
+  id "com.testfunction.gradle-gitdroid" version "0.0.2"
+}
+```
 
 ####2. Configure Gradle GitDroid in your module's `build.gradle` file with the `gitDroid` closure:
  
@@ -211,14 +217,9 @@ rootProject `build.gradle`
  buildscript {
      repositories {
          jcenter()
-         maven {
-             url mavenLocal().url
-         }
- 
      }
      dependencies {
          classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'
      }
  }
  
@@ -240,8 +241,11 @@ rootProject `build.gradle`
 
 module `build.gradle`
 ```groovy
+plugins {
+  id "com.testfunction.gradle-gitdroid" version "0.0.2"
+}
+
 apply plugin: 'com.android.application'
-apply plugin: 'gradle-gitdroid'
 
 android {
     compileSdkVersion 23
