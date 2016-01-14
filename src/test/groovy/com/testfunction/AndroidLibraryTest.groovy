@@ -739,16 +739,13 @@ class AndroidLibraryTest extends Specification {
     buildscript {
         repositories {
             jcenter()
-            maven {
-                url mavenLocal().url
-            }
         }
         dependencies {
             classpath 'com.android.tools.build:gradle:1.5.0'
         }
     }
     plugins {
-        id 'gradle-gitdroid'
+        id 'com.testfunction.gradle-gitdroid'
     }
 
     allprojects {
