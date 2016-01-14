@@ -1,0 +1,127 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+    }
+}
+
+group 'com.testfunction'
+version '0.0.1'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+        true
+    }
+}
+
+configurations {
+    provided
+    magic
+}
+
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+        true
+    }
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+    }
+
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:1.5.0'
+    compile 'org.ajoberstar:grgit:1.5.0-rc.1'
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile gradleTestKit()
+    testCompile ('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module:'groovy-all'
+    }
+
+    testCompile 'com.android.tools.build:gradle:1.5.0'
+
+    testRuntime files(createClasspathManifest)
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy']
+            true
+        }
+        compileClasspath += configurations.provided
+        true
+    }
+    test {
+        groovy {
+            srcDirs = ['src/test/groovy']
+            true
+        }
+    }
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenLocal().url)
+        }
+    }
+    true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+    true
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'gradle-gitdroid'
+
+    publishedGroupId = 'com.testfunction'
+    libraryName = 'gradle-gitdroid'
+    artifact = 'gradle-gitdroid'
+
+    libraryDescription = 'A gradle plugin for Android projects that allows for dependencies from git repositories'
+
+    siteUrl = 'https://github.com/lodlock/gradle-gitdroid'
+    gitUrl = 'https://github.com/lodlock/gradle-gitdroid.git'
+
+    libraryVersion = version
+
+    developerId = 'lodlock'
+    developerName = 'Brandon Andrews'
+    developerEmail = 'iamhunted@gmail.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'http://opensource.org/licenses/mit-license.php'
+    allLicenses = ["MIT"]
+}
+
+apply from: "install.gradle"
+if (hasProperty('bintray.user') && hasProperty('bintray.apikey') && hasProperty('bintray.gpg.password')) {
+    apply from: "bintray.gradle"
+}
