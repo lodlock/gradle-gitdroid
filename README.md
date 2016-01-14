@@ -218,7 +218,7 @@ rootProject `build.gradle`
      }
      dependencies {
          classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.1'
+         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'
      }
  }
  
