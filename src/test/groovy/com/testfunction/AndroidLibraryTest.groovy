@@ -859,7 +859,7 @@ $config
             } else if (currentPlatform() == PLATFORM_LINUX) {
                 home = System.getenv("HOME")
                 androidSdk = new File(File.separator + "usr" +
-                        File.separator + "Local" +
+                        File.separator + "local" +
                                 File.separator + "android-sdk")
 
             }

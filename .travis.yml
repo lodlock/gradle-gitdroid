@@ -7,4 +7,5 @@ env:
 sudo: false
 before_install:
   - chmod +x ./gradlew
-  - echo $ANDROID_HOME_ENV
+  - export ANDROID_HOME=/usr/local/android-sdk
+  - echo $ANDROID_HOME
