@@ -13,7 +13,7 @@ from a git repo based on commit or branch.
 ### Usage
 To use this plugin:
 ####1. Add to classpath
-`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.1'` to your root `build.gradle` file 
+`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'` to your root `build.gradle` file 
 in the buildscript dependencies section.
  
 ```groovy
@@ -27,7 +27,7 @@ in the buildscript dependencies section.
      }
      dependencies {
          classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.1'
+         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.1'
      }
  }
 ```
