@@ -16,7 +16,7 @@ from a git repo based on commit or branch.
 To use this plugin:
 ####1. Add to project
 **Gradle version < 2.1** 
-`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.2'` to your root `build.gradle` file 
+`classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.3'` to your root `build.gradle` file 
 in the buildscript dependencies section.
 ```groovy
  buildscript {
@@ -25,7 +25,7 @@ in the buildscript dependencies section.
      }
      dependencies {
          classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.2'
+         classpath group: 'com.testfunction', name: 'gradle-gitdroid', version: '0.0.3'
      }
  }
 ```
@@ -36,7 +36,7 @@ In your module's `build.gradle` file add `apply plugin: 'gradle-gitdroid'`
 In your module's `build.gradle` file add plugin:
 ```groovy
 plugins {
-  id "com.testfunction.gradle-gitdroid" version "0.0.2"
+  id "com.testfunction.gradle-gitdroid" version "0.0.3"
 }
 ```
 
@@ -176,8 +176,8 @@ compile ('com.testfunction:lumberjill:HEAD@aar') {
 
 Property | Expects | Default | Description
 ------------- | ------------- | ------------- | -------------
-buildJavaDocs | boolean | false | Not yet implemented
-buildSource | boolean | false | Not yet impelemented
+buildJavaDocs | boolean | true | Include javadoc in local repo
+buildSource | boolean | true | Include code source in local repo
 credentials | Map | | sshKey or username and password
 forceBuild | boolean | false | Used internally to force a build of the dependency
 keepSource | boolean | false | Keep the cloned source code after completion
@@ -242,7 +242,7 @@ rootProject `build.gradle`
 module `build.gradle`
 ```groovy
 plugins {
-  id "com.testfunction.gradle-gitdroid" version "0.0.2"
+  id "com.testfunction.gradle-gitdroid" version "0.0.3"
 }
 
 apply plugin: 'com.android.application'

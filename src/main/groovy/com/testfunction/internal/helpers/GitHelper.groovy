@@ -5,6 +5,7 @@ import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Repository
 import org.ajoberstar.grgit.auth.AuthConfig
 import org.ajoberstar.grgit.exception.GrgitException
+import org.eclipse.jgit.storage.file.WindowCacheConfig
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.logging.Logger
@@ -190,7 +191,7 @@ class GitHelper {
     def static boolean testRepo(Logger log, File destinationDir) {
         log.debug("testing repo")
         def ret
-        def Grgit grgit
+        def Grgit grgit = null
         try {
             grgit = Grgit.open(dir:destinationDir.absolutePath)
             log.debug("grgit:"+grgit)

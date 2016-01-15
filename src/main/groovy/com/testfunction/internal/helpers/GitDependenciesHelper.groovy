@@ -8,6 +8,8 @@ import com.testfunction.internal.dependencies.DepUnresolved
 import com.testfunction.internal.enums.GitDependencyTypes
 import com.testfunction.internal.utils.Utils
 import com.testfunction.tasks.CompileEachTask
+import org.eclipse.jgit.internal.storage.file.WindowCache
+import org.eclipse.jgit.storage.file.WindowCacheConfig
 import org.gradle.StartParameter
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -161,7 +163,9 @@ class GitDependenciesHelper {
     static def getGitRepo(Project project) {
         def log = project.logger
         def gitDroid = (GitProjectExt) project.extensions.findByName("gitDroid")
-
+        def WindowCacheConfig config = new WindowCacheConfig()
+        config.packedGitMMAP = false
+        config.install()
         def dependenciesNeedsBuild = gitDroid.needsbuild
         log.debug("getGitRepo needsbuild:$dependenciesNeedsBuild")
         dependenciesNeedsBuild.each { ExternalModuleDependency dependency, GitDependencyExt gitExt ->
@@ -494,6 +498,45 @@ class GitDependenciesHelper {
     ) {
         log.debug("addArchiveFile init with dependency:$dependency.name and dir:$dependencyDir.absolutePath")
         log.debug("setting archive repo to:" + gitProjectExt.localRepo)
+
+        def clearArtifact = ""
+        if (!gitExt.buildJavaDocs && !gitExt.buildSources) {
+            clearArtifact = """
+            configurations.archives.artifacts.with { archives ->
+                removeFromArchives(archives, 'javadoc.jar')
+                removeFromArchives(archives, 'sources.jar')
+            }
+            """
+        } else if (!gitExt.buildJavaDocs) {
+            clearArtifact = """
+            configurations.archives.artifacts.with { archives ->
+                removeFromArchives(archives, 'javadoc.jar')
+            }
+            """
+        } else if (!gitExt.buildSources) {
+            clearArtifact = """
+            configurations.archives.artifacts.with { archives ->
+                removeFromArchives(archives, 'sources.jar')
+            }
+            """
+        }
+
+        def clearJavadocsSource = """
+            def removeFromArchives(def archives, def search) {
+                def jarArtifact
+                archives.each {
+                    if (it.file =~ search) {
+                        jarArtifact = it
+                    }
+                }
+                println "JAR to delete: \${jarArtifact}"
+                if (jarArtifact) {
+                    archives.remove(jarArtifact)
+                }
+            }
+            $clearArtifact
+"""
+
         new File(dependencyDir, "gitDroid.gradle") << """\
 apply plugin: 'maven'
 
@@ -539,6 +582,9 @@ apply plugin: 'maven'
             }
         }
     }
+
+
+$clearJavadocsSource
 
 task uploadArchivesDeps (dependsOn:uploadArchives) {
     doLast {

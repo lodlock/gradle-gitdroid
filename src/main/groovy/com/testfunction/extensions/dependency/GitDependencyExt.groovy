@@ -37,10 +37,8 @@ class GitDependencyExt {
     def ArrayList remoteModules = null;
     def boolean uploadDependencies = true;
 
-    //todo add buildSources
-    def boolean buildSources = false;
-    //todo add buildJavaDocs
-    def boolean buildJavaDocs = false;
+    def boolean buildSources = true;
+    def boolean buildJavaDocs = true;
 
     def boolean forceBuild = false
 

@@ -25,4 +25,21 @@ install:
 
 script:
 #  - travis_wait ./gradlew check --stacktrace --info
-  - ./gradlew check --stacktrace --debug
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing test without missing dep" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.tasks list without missing dep" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.tasks list with resolvable dep" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.failing build with missing dep without git extension" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.failing one build with missing dep with git extension" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing build twice with missing dep with git extension" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing build twice with missing dep with git extension initGitDependencies" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.fail first build missing dep using git direct call initGitDependencies" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.fail build missing dep using git direct call initGitDependencies wrong commit" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.fail build missing dep using git direct call initGitDependencies branch" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.pass build twice missing dep using git direct call listGitDependencies branch" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.pass build twice missing dep using git direct call listGitDependencies tag" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.pass build twice missing dep using git direct call initGitDependencies branch keepUpdated" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.initGitDependencies dep without git gitConfig" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing test dep with git gitConfig" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing multi dep with one git" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.passing multi dep with both git" --stacktrace
+  - travis_wait ./gradlew cleanTest test --tests "com.testfunction.AndroidLibraryTest.failing test dep non existent" --stacktrace

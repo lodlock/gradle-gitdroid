@@ -14,7 +14,7 @@ buildscript {
 }
 
 group 'com.testfunction'
-version '0.0.2'
+version '0.0.3'
 
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'groovy'

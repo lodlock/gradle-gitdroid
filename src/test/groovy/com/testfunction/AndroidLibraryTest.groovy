@@ -182,6 +182,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "passing build twice with missing dep with git extension initGitDependencies"() {
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -240,7 +241,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "fail build missing dep using git direct call initGitDependencies branch"() {
-        shouldClean = false
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT_BRANCH)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -258,7 +259,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "pass build twice missing dep using git direct call listGitDependencies branch"() {
-        shouldClean = false
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT_BRANCH)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -287,7 +288,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "pass build twice missing dep using git direct call listGitDependencies tag"() {
-        shouldClean = false
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT_TAG)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -316,7 +317,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "pass build twice missing dep using git direct call initGitDependencies branch"() {
-        shouldClean = false
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT_BRANCH)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -345,7 +346,7 @@ class AndroidLibraryTest extends Specification {
     }
 
     def "pass build twice missing dep using git direct call initGitDependencies branch keepUpdated"() {
-        shouldClean = false
+
         given:
         populateBuildFile(DEPENDENCY_WITH_GIT_BRANCH_KEEP_UPDATED)
         LOG.lifecycle("buildFile:" + buildFile);
@@ -483,7 +484,11 @@ class AndroidLibraryTest extends Specification {
     def cleanup() {
         LOG.lifecycle("cleanup init for dir:" + testProjectDir.absolutePath)
         if (shouldClean) {
-            testProjectDir.deleteDir()
+            if (testProjectDir.deleteDir()) {
+                LOG.lifecycle("$testProjectDir.absolutePath deleted")
+            } else {
+                LOG.lifecycle("$testProjectDir.absolutePath could not be deleted")
+            }
         }
     }
 
