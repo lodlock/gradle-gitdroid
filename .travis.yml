@@ -3,15 +3,19 @@ language: java
 env:
   global:
     - TERM=dumb
+    - ANDROID_SDK_VERSION="r23"
 
 sudo: false
 before_install:
   - chmod +x ./gradlew
-  - export ANDROID_HOME=/usr/local/android-sdk
-  - echo $ANDROID_HOME
+  - wget http://dl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
+  - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
+  - export ANDROID_HOME_ENV=`pwd`/android-sdk-linux
+  - export PATH=${PATH}:${ANDROID_HOME_ENV}/tools:${ANDROID_HOME_ENV}/platform-tools
+  - echo $ANDROID_HOME_ENV
 
 install:
-  - TERM=dumb ./gradlew assemble --stacktrace --debug
+  - TERM=dumb ./gradlew assemble --stacktrace --info
 
 script:
-  - TERM=dumb ./gradlew check --stacktrace --debug
+  - TERM=dumb ./gradlew check --stacktrace --info
