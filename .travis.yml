@@ -24,4 +24,5 @@ install:
   - TERM=dumb ./gradlew assemble --stacktrace --info
 
 script:
-  - travis_wait ./gradlew check --stacktrace --info
+#  - travis_wait ./gradlew check --stacktrace --info
+  - ./gradlew check --stacktrace --debug
