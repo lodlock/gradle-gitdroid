@@ -10,9 +10,9 @@ before_install:
   - chmod +x ./gradlew
   - wget http://dl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
   - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
-  - export ANDROID_HOME_ENV=`pwd`/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME_ENV}/tools:${ANDROID_HOME_ENV}/platform-tools
-  - echo $ANDROID_HOME_ENV
+  - export ANDROID_HOME=`pwd`/android-sdk-linux
+  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+  - echo "sdk.dir=$ANDROID_HOME" > local.properties
 
 install:
   - TERM=dumb ./gradlew assemble --stacktrace --info
