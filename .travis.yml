@@ -9,3 +9,9 @@ before_install:
   - chmod +x ./gradlew
   - export ANDROID_HOME=/usr/local/android-sdk
   - echo $ANDROID_HOME
+
+install:
+  - TERM=dumb ./gradlew assemble --stacktrace --debug
+
+script:
+  - TERM=dumb ./gradlew check --stacktrace --debug
